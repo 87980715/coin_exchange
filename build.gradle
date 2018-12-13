@@ -1,0 +1,61 @@
+buildscript {
+    ext {
+        springBootVersion = "$SPRING_BOOT_VERSION"
+    }
+    repositories {
+        maven { url "${REPOSITORIES_MAVEN_URL}" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+    configurations {
+        compile.exclude module: "spring-boot-starter-tomcat"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.coin.exchange'
+version = "$JAR_VERSION"
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url "${REPOSITORIES_MAVEN_URL}" }
+    mavenLocal()
+    mavenCentral()
+}
+
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('org.springframework.boot:spring-boot-starter-undertow')
+
+    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:${MYBATI_SPRING_BOOT_VERSION}")
+    compile ("com.alibaba:druid:${DRUID_VERSIN}")
+    runtime('mysql:mysql-connector-java')
+
+    compileOnly("org.projectlombok:lombok:${LOMBOK_VERSION}")
+    compile("com.google.code.gson:gson:${GSON_VERSION}")
+    compile("com.google.guava:guava:${GUAVA_VERSION}")
+    compile("com.alibaba:fastjson:${FASTJSON_VERSION}")
+
+
+    //Restfull API接口文档
+    compile("io.springfox:springfox-swagger2:${SWAGGER2_VERSION}")
+    compile("io.springfox:springfox-swagger-ui:${SWAGGER2_VERSION}")
+
+    //retrofit+okhttp
+    compile("com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}")
+    compile("com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}")
+
+}
+
+springBoot {
+    mainClassName = "$SPRING_BOOT_MAIN_CLASS"
+}

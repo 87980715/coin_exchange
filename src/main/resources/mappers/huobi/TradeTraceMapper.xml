@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coin.exchange.module.huobi.infrastructure.dao.mybatis.TradeTraceMybatisDAO">
+    <resultMap id="BaseResultMap" type="com.coin.exchange.module.huobi.infrastructure.tunnel.dataobject.TradeTraceDO">
+        <id property="id" column="id" jdbcType="BIGINT" />
+        <result property="symbol" column="symbol" jdbcType="VARCHAR" />
+        <result property="beginCurrency" column="begin_currency" jdbcType="VARCHAR" />
+        <result property="beginBalance" column="begin_balance" jdbcType="DECIMAL" />
+        <result property="endCurrency" column="end_currency" jdbcType="VARCHAR" />
+        <result property="endBalance" column="end_balance" jdbcType="DECIMAL" />
+        <result property="income" column="income" jdbcType="DECIMAL" />
+        <result property="yieldRate" column="yield_rate" jdbcType="DECIMAL" />
+        <result property="beginTradeTime" column="begin_trade_time" jdbcType="TIMESTAMP" />
+        <result property="endTradeTime" column="end_trade_time" jdbcType="TIMESTAMP" />
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+        <result property="lastUpdated" column="last_updated" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        `id`,
+        `symbol`,
+        `begin_currency`,
+        `begin_balance`,
+        `end_currency`,
+        `end_balance`,
+        `income`,
+        `yield_rate`,
+        `begin_trade_time`,
+        remarks,
+        `end_trade_time`,
+        `create_time`
+    </sql>
+
+    <insert id="insert" parameterType="com.coin.exchange.module.huobi.infrastructure.tunnel.dataobject.TradeTraceDO" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO `trade_trace`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `id`,
+            `symbol`,
+            `begin_currency`,
+            `begin_balance`,
+            `end_currency`,
+            `end_balance`,
+            `income`,
+            `yield_rate`,
+            `begin_trade_time`,
+            remarks,
+            `end_trade_time`,
+            `create_time`
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{id},
+            #{symbol},
+            #{beginCurrency},
+            #{beginBalance},
+            #{endCurrency},
+            #{endBalance},
+            #{income},
+            #{yieldRate},
+            #{beginTradeTime},
+            #{remarks},
+            #{endTradeTime},
+            #{createTime}
+        </trim>
+    </insert>
+
+
+    <update id="update" parameterType="com.coin.exchange.module.huobi.infrastructure.tunnel.dataobject.TradeTraceDO">
+        UPDATE `trade_trace`
+        <set>
+            `symbol` = #{symbol},
+            `begin_currency` = #{beginCurrency},
+            `begin_balance` = #{beginBalance},
+            `end_currency` = #{endCurrency},
+            `end_balance` = #{endBalance},
+            `income` = #{income},
+            `yield_rate` = #{yieldRate},
+            `begin_trade_time` = #{beginTradeTime},
+            `end_trade_time` = #{endTradeTime},
+            remarks = #{remarks},
+            `create_time` = #{createTime},
+        </set>
+        WHERE
+        `id` = #{id}
+    </update>
+    <select id="get" resultMap="BaseResultMap">
+      SELECT  <include refid="Base_Column_List" /> from trade_trace where id = #{id}
+    </select>
+</mapper>
